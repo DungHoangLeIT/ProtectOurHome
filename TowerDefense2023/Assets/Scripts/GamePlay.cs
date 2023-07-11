@@ -5,13 +5,14 @@ using UnityEngine;
 
 public class GamePlay : MonoBehaviour
 {
-    public Transform enemyPrefab;
+
     public Transform spawnPos;
-    public float timeWaveLeft = 5f;
+    public float timeWaveLeft = 15f;
     public TMP_Text timeWaveLeftText;
 
     private float countDown = 2f;
     private int waveNumber = 0;
+
 
     private void Update()
     {
@@ -38,7 +39,12 @@ public class GamePlay : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        Instantiate(enemyPrefab, spawnPos.position, spawnPos.rotation);
+        GameObject enemyPrefab = EnemyPool.instance.GetPoolEnemy();
+        if(enemyPrefab != null)
+        {
+            enemyPrefab.transform.position = spawnPos.position;
+            enemyPrefab.SetActive(true);
+        }
     }
 
 

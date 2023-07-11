@@ -28,10 +28,24 @@ public class Enemy : MonoBehaviour
     {
         if(wavePointIndex >= Waypoints.points.Length - 1)
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
+            target = Waypoints.points[0];
+            wavePointIndex = 0;
             return;
         }
         wavePointIndex += 1;
         target = Waypoints.points[wavePointIndex];
+        Debug.Log(wavePointIndex);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Bullet"))
+        {
+            gameObject.SetActive(false);
+            target = Waypoints.points[0];
+            wavePointIndex = 0;
+            Destroy(other.gameObject);
+        }
     }
 }

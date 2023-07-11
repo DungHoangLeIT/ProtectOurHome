@@ -17,7 +17,7 @@ public class Bullet : MonoBehaviour
 
     void Update()
     {
-        if(target == null)
+        if(target.gameObject == null)
         {
             Destroy(gameObject);
             return;
@@ -25,20 +25,23 @@ public class Bullet : MonoBehaviour
 
         Vector3 dir = target.position - transform.position;
         float distanceFrame = speed * Time.deltaTime;
-        if(dir.magnitude <= distanceFrame )
-        {
-            HitTarget();
-            return;
-        }
         transform.Translate(dir.normalized * distanceFrame, Space.World);
     }
 
     private void HitTarget()
     {
-        GameObject effectIns = (GameObject)Instantiate(impactEffect,transform.position,transform.rotation);
+        GameObject effectIns = (GameObject)Instantiate(impactEffect, transform.position, transform.rotation);
         Destroy(effectIns, 2f);
-        Destroy(target.gameObject);
     }
 
-    
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            HitTarget();
+        }
+    }
+
+
+
 }
